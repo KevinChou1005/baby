@@ -1,8 +1,8 @@
 // 1) 在這裡列出你的照片（放在 /images 資料夾）
 const photos = [
-  { src: "images/01.jpg", caption: "第 1 張" },
-  { src: "images/02.jpg", caption: "第 2 張" },
-  { src: "images/03.jpg", caption: "第 3 張" },
+  { src: "/images/01.JPG", caption: "第 1 張" },
+  { src: "/images/02.JPG", caption: "第 2 張" },
+  { src: "/images/03.JPG", caption: "第 3 張" },
 ];
 
 const LS_KEY = "baby_slider_index_v1";
