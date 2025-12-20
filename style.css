@@ -194,3 +194,25 @@ h1{font-size:18px; margin:0}
   .frame{aspect-ratio: 16 / 9;}
   .thumb{width:110px}
 }
+/* ✅ 修正：主照片完整顯示，不裁切 */
+#media{
+  width: 100%;
+  height: 100%;
+}
+
+#media img,
+#media video{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;   /* 重要：完整顯示 */
+  object-position: center;
+  display: block;
+}
+
+/* 如果你想讓直式照片更「填滿」一點（可能會裁切），改成 cover */
+/*
+#media img,
+#media video{
+  object-fit: cover;
+}
+*/
