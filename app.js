@@ -8,7 +8,7 @@ document.getElementById("babyName").textContent = babyName;
 const items = [
   { type: "image", src: "/images/01.JPG", caption: "第 1 張" },
   { type: "image", src: "/images/02.JPG", caption: "第 2 張" },
-  { type: "video", src: "/images/01.MP4", caption: "可愛影片 1" },
+  { type: "video", src: "/images/01.MP4", caption: "可愛影片 1" , poster:"/images/poster.JPG"},
   { type: "image", src: "/images/03.JPG", caption: "第 3 張" },
 ];
 
