@@ -6,10 +6,10 @@ document.getElementById("babyName").textContent = babyName;
 // type: "image" | "video"
 // poster(選填)：影片封面圖，沒有也可以（會顯示播放標示）
 const items = [
-  { type: "image", src: "/images/01.jpg", caption: "第 1 張" },
-  { type: "image", src: "/images/02.jpg", caption: "第 2 張" },
-  { type: "video", src: "/images/01.mp4", caption: "可愛影片 1", poster: "/images/01_poster.jpg" },
-  { type: "image", src: "/images/03.jpg", caption: "第 3 張" },
+  { type: "image", src: "/images/01.JPG", caption: "第 1 張" },
+  { type: "image", src: "/images/02.JPG", caption: "第 2 張" },
+  { type: "video", src: "/images/01.MP4", caption: "可愛影片 1", poster: "/images/01_poster.jpg" },
+  { type: "image", src: "/images/03.JPG", caption: "第 3 張" },
 ];
 
 const LS_KEY = "baby_slider_index_v2";
