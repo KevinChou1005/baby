@@ -9,10 +9,10 @@
 <body>
   <header class="top">
     <div class="wrap">
-      <div class="brand">
+    <div class="brand">
         <div class="dot"></div>
-        <h1>寶寶相簿</h1>
-      </div>
+        <h1><span id="babyName">洋洋</span> 的相簿</h1>
+    </div>
       <div class="right">
         <button class="btn ghost" id="toggleAuto">自動播放：開</button>
       </div>
@@ -24,13 +24,15 @@
       <div class="stage" id="stage">
         <button class="nav prev" id="prev" aria-label="上一張">‹</button>
 
-        <figure class="frame">
-          <img id="mainImg" alt="寶寶照片" />
-          <figcaption class="caption">
-            <span id="captionText">—</span>
-            <span class="counter" id="counter">1 / 1</span>
-          </figcaption>
+        <figure class="frame" id="frame">
+            <div class="media" id="media"></div>
+
+            <figcaption class="caption">
+                <span id="captionText">—</span>
+                <span class="counter" id="counter">1 / 1</span>
+            </figcaption>
         </figure>
+
 
         <button class="nav next" id="next" aria-label="下一張">›</button>
       </div>

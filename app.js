@@ -1,14 +1,20 @@
-// 1) 在這裡列出你的照片（放在 /images 資料夾）
-const photos = [
-  { src: "/images/01.JPG", caption: "第 1 張" },
-  { src: "/images/02.JPG", caption: "第 2 張" },
-  { src: "/images/03.JPG", caption: "第 3 張" },
+// ✅ 寶寶名字（第 5 點）
+const babyName = "洋洋";
+document.getElementById("babyName").textContent = babyName;
+
+// ✅ 圖片/影片清單（影片也放在 images/ 內）
+// type: "image" | "video"
+// poster(選填)：影片封面圖，沒有也可以（會顯示播放標示）
+const items = [
+  { type: "image", src: "/images/01.jpg", caption: "第 1 張" },
+  { type: "image", src: "/images/02.jpg", caption: "第 2 張" },
+  { type: "video", src: "/images/01.mp4", caption: "可愛影片 1", poster: "/images/01_poster.jpg" },
+  { type: "image", src: "/images/03.jpg", caption: "第 3 張" },
 ];
 
-const LS_KEY = "baby_slider_index_v1";
-let index = Math.max(0, Math.min(photos.length - 1, Number(localStorage.getItem(LS_KEY) || 0)));
+const LS_KEY = "baby_slider_index_v2";
+let index = Math.max(0, Math.min(items.length - 1, Number(localStorage.getItem(LS_KEY) || 0)));
 
-const mainImg = document.getElementById("mainImg");
 const captionText = document.getElementById("captionText");
 const counter = document.getElementById("counter");
 const thumbs = document.getElementById("thumbs");
@@ -16,56 +22,32 @@ const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
 const toggleAutoBtn = document.getElementById("toggleAuto");
 const stage = document.getElementById("stage");
+const frame = document.getElementById("frame");
+const media = document.getElementById("media");
 
 let auto = true;
 let timer = null;
 const intervalMs = 3500;
 
-function clamp(i){ return (i + photos.length) % photos.length; }
+function clamp(i){ return (i + items.length) % items.length; }
+
+function setFrameOrientation(isLandscape){
+  frame.classList.toggle("landscape", !!isLandscape);
+}
 
 function renderThumbs(){
   thumbs.innerHTML = "";
-  photos.forEach((p, i) => {
+  items.forEach((it, i) => {
     const t = document.createElement("button");
-    t.className = "thumb" + (i === index ? " active" : "");
     t.type = "button";
-    t.innerHTML = `<img src="${p.src}" alt="縮圖 ${i+1}">`;
+    t.className = "thumb" + (i === index ? " active" : "") + (it.type === "video" ? " video" : "");
+    // 縮圖：圖片用自己，影片用 poster（若無 poster 用一張通用封面也可）
+    const thumbSrc = it.type === "video" ? (it.poster || "/images/video-poster.jpg") : it.src;
+    t.innerHTML = `<img src="${thumbSrc}" alt="縮圖 ${i+1}">`;
     t.addEventListener("click", () => go(i, true));
     thumbs.appendChild(t);
   });
 }
-
-function render(){
-  if (!photos.length){
-    captionText.textContent = "尚未加入照片";
-    counter.textContent = "0 / 0";
-    mainImg.removeAttribute("src");
-    return;
-  }
-  const p = photos[index];
-  mainImg.src = p.src;
-  captionText.textContent = p.caption || "";
-  counter.textContent = `${index + 1} / ${photos.length}`;
-  localStorage.setItem(LS_KEY, String(index));
-
-  // 更新 active thumb
-  [...thumbs.children].forEach((el, i) => {
-    el.classList.toggle("active", i === index);
-  });
-
-  // 滾動縮圖讓 active 出現在視野中
-  const active = thumbs.children[index];
-  if (active?.scrollIntoView) active.scrollIntoView({behavior:"smooth", inline:"center", block:"nearest"});
-}
-
-function go(i, userAction=false){
-  index = clamp(i);
-  render();
-  if (userAction) restartAuto();
-}
-
-function next(userAction=false){ go(index + 1, userAction); }
-function prev(userAction=false){ go(index - 1, userAction); }
 
 function stopAuto(){
   auto = false;
@@ -84,7 +66,75 @@ function restartAuto(){
   startAuto();
 }
 
-// controls
+// ✅ 影片播放時，自動停止輪播（不然會跳走）
+function pauseAutoWhenVideoPlays(el){
+  if (!el || el.tagName !== "VIDEO") return;
+  el.addEventListener("play", () => stopAuto());
+}
+
+function render(){
+  if (!items.length){
+    captionText.textContent = "尚未加入照片/影片";
+    counter.textContent = "0 / 0";
+    media.innerHTML = "";
+    return;
+  }
+
+  const it = items[index];
+  captionText.textContent = it.caption || "";
+  counter.textContent = `${index + 1} / ${items.length}`;
+  localStorage.setItem(LS_KEY, String(index));
+
+  // 清空容器
+  media.innerHTML = "";
+
+  if (it.type === "video"){
+    const v = document.createElement("video");
+    v.src = it.src;
+    v.controls = true;
+    v.playsInline = true;
+    if (it.poster) v.poster = it.poster;
+
+    // 影片載入 metadata 後判斷直橫（第 4 點）
+    v.addEventListener("loadedmetadata", () => {
+      const isLandscape = v.videoWidth >= v.videoHeight;
+      setFrameOrientation(isLandscape);
+    });
+
+    pauseAutoWhenVideoPlays(v);
+    media.appendChild(v);
+
+    // 影片預設先橫式容器較常見，但仍以 metadata 為準
+    setFrameOrientation(true);
+  } else {
+    const img = document.createElement("img");
+    img.src = it.src;
+    img.alt = "寶寶照片";
+
+    // 圖片載入後判斷直橫（第 4 點）
+    img.addEventListener("load", () => {
+      const isLandscape = img.naturalWidth >= img.naturalHeight;
+      setFrameOrientation(isLandscape);
+    });
+
+    media.appendChild(img);
+  }
+
+  // 更新 active thumb
+  [...thumbs.children].forEach((el, i) => el.classList.toggle("active", i === index));
+
+  const active = thumbs.children[index];
+  if (active?.scrollIntoView) active.scrollIntoView({behavior:"smooth", inline:"center", block:"nearest"});
+}
+
+function go(i, userAction=false){
+  index = clamp(i);
+  render();
+  if (userAction) restartAuto();
+}
+function next(userAction=false){ go(index + 1, userAction); }
+function prev(userAction=false){ go(index - 1, userAction); }
+
 prevBtn.addEventListener("click", () => prev(true));
 nextBtn.addEventListener("click", () => next(true));
 
@@ -93,7 +143,6 @@ toggleAutoBtn.addEventListener("click", () => {
   else startAuto();
 });
 
-// keyboard
 window.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") prev(true);
   if (e.key === "ArrowRight") next(true);
@@ -107,9 +156,7 @@ stage.addEventListener("touchstart", (e) => {
   moved = false;
 }, { passive:true });
 
-stage.addEventListener("touchmove", (e) => {
-  moved = true;
-}, { passive:true });
+stage.addEventListener("touchmove", () => { moved = true; }, { passive:true });
 
 stage.addEventListener("touchend", (e) => {
   if (!moved) return;
