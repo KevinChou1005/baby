@@ -40,9 +40,9 @@ body::before{
 
 .top{
   position:sticky; top:0; z-index:10;
-  background: rgba(11,15,23,.65);
+  background: rgba(215, 130, 187, 0.65);
   backdrop-filter: blur(12px);
-  border-bottom:1px solid rgba(35,49,79,.6);
+  border-bottom:1px solid rgba(231, 146, 221, 0.6);
 }
 .top .wrap{display:flex; align-items:center; gap:12px}
 .brand{display:flex; align-items:center; gap:10px}
