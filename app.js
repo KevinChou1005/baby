@@ -7,12 +7,22 @@ document.getElementById("babyName").textContent = babyName;
 // poster(選填)：影片封面圖，沒有也可以（會顯示播放標示）
 const items = [
   { type: "image", src: "/images/01.JPG", caption: "第 1 張" },
-  { type: "image", src: "/images/02.JPG", caption: "第 2 張" },
   { type: "video", src: "/images/01.MP4", caption: "可愛影片 1" , poster:"/images/poster.JPG"},
-  { type: "image", src: "/images/03.JPG", caption: "第 3 張" },
-  { type: "image", src: "/images/04.JPG", caption: "第 4 張" },
-  { type: "image", src: "/images/05.JPG", caption: "第 5 張" },
-  { type: "image", src: "/images/06.JPG", caption: "第 6 張" },
+  { type: "image", src: "/images/03.JPG", caption: "第 2 張" },
+  { type: "image", src: "/images/04.JPG", caption: "第 3 張" },
+  { type: "image", src: "/images/05.JPG", caption: "第 4 張" },
+  { type: "image", src: "/images/06.JPG", caption: "第 5 張" },
+  { type: "image", src: "/images/07.JPG", caption: "第 6 張" },
+  { type: "image", src: "/images/08.JPG", caption: "第 7 張" },
+  { type: "image", src: "/images/09.JPG", caption: "第 8 張" },
+  { type: "image", src: "/images/10.JPG", caption: "第 9 張" },
+  { type: "image", src: "/images/11.JPG", caption: "第 10 張" },
+  { type: "image", src: "/images/12.JPG", caption: "第 11 張" },
+  { type: "image", src: "/images/13.JPG", caption: "第 12 張" },
+  { type: "image", src: "/images/14.JPG", caption: "第 13 張" },
+  { type: "image", src: "/images/15.JPG", caption: "第 14 張" },
+  { type: "image", src: "/images/16.JPG", caption: "第 15 張" },
+  { type: "image", src: "/images/17.JPG", caption: "第 16 張" },
 ];
 
 const LS_KEY = "baby_slider_index_v2";
